@@ -24,4 +24,7 @@ public interface UserDao {
     User findByUsername(String username);
 
 
+    User findByCode(String code);
+
+    void updateStatus(User user);
 }

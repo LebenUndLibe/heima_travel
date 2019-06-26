@@ -55,10 +55,14 @@ public final class CookieUtils {
      * @param maxAge    最大持久化时间
      * @param response  客户端相应对象
      */
-    public static void newCookie(String cookieName, String cookieValue, int maxAge, HttpServletResponse response) {
+    public static void addCookie(String cookieName, String cookieValue, int maxAge, HttpServletResponse response) {
         Cookie cookie = new Cookie(cookieName, cookieValue);
         cookie.setMaxAge(maxAge);
 
         response.addCookie(cookie);
+    }
+
+    public static void deleteCookie(String username, String cookieValue, int i, HttpServletResponse response) {
+        addCookie(username,cookieValue,i,response);
     }
 }

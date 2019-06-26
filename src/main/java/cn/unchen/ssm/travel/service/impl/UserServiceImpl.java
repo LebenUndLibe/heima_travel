@@ -43,10 +43,10 @@ public class UserServiceImpl implements UserService {
         }
         //注册成功发送激活邮件
         resultInfo.setFlag(true);
-        String content = "<a href='http://localhost/travel/activeUserServlet?code="+user.getCode()+"'>点击激活账号【黑马旅游网】</a>";
+        String content = "<a href='http://localhost/travel/activeUserServlet?code=" + user.getCode() + "'>点击激活账号【黑马旅游网】</a>";
 
         try {
-            MailUtils.sendMail(user.getEmail(),content,"【黑马旅游网】账号激活邮件");
+            MailUtils.sendMail(user.getEmail(), content, "【黑马旅游网】账号激活邮件");
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -54,5 +54,41 @@ public class UserServiceImpl implements UserService {
         return resultInfo;
 
 
+    }
+
+    public ResultInfo login(User user) {
+
+        ResultInfo<User> resultInfo = new ResultInfo<User>();   //服务器相应信息对象
+        User loginUser = userDao.findByUsername(user.getUsername());
+        if (loginUser == null || !user.getPassword().equals(loginUser.getPassword())) {
+//            resultInfo.setFlag(false);
+            resultInfo.setErrorMsg("用户名或密码错误");
+            return resultInfo;
+        }
+        if ("N".equals(loginUser.getStatus())) {
+//            resultInfo.setFlag(false);
+            resultInfo.setErrorMsg("用户尚未激活,请登录邮箱激活");
+        }
+        if ("Y".equals(loginUser.getStatus())) {
+            resultInfo.setFlag(true);
+            resultInfo.setData(loginUser);
+        }
+        return resultInfo;
+    }
+
+    public ResultInfo activeUser(String code) {
+        ResultInfo resultInfo = new ResultInfo();
+        if (code == null || "".equals(code)||code.length()!=32) {
+            resultInfo.setErrorMsg("非法链接");
+            return resultInfo;
+        }
+        User user = userDao.findByCode(code);
+        if (user == null||"Y".equals(user.getStatus())) {
+            resultInfo.setErrorMsg("激活码错误,或已失效");
+            return resultInfo;
+        }
+        userDao.updateStatus(user);
+        resultInfo.setFlag(true);
+        return resultInfo;
     }
 }

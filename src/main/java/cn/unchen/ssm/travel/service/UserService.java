@@ -16,4 +16,18 @@ public interface UserService {
      * @return
      */
     ResultInfo save(User user);
+
+    /**
+     * 用户登录
+     * @param user
+     * @return
+     */
+    ResultInfo login(User user);
+
+    /**
+     * 用户激活
+     * @param code
+     * @return
+     */
+    ResultInfo activeUser(String code);
 }

@@ -17,6 +17,6 @@ public final class UuidUtil {
 		System.out.println(UuidUtil.getUuid());
 		System.out.println(UuidUtil.getUuid());
 		System.out.println(UuidUtil.getUuid());
-		System.out.println(UuidUtil.getUuid());
+		System.out.println(UuidUtil.getUuid().length());
 	}
 }
