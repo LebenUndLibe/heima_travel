@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="cn.unchen.ssm.travel.dao.UserDao">
+
+
+    <sql id="select">uid,username,password,name,birthday,sex,telephone,email,status,code</sql>
+
+    <select id="findOne" resultType="cn.unchen.ssm.travel.domain.User"></select>
+
+    <insert id="save" parameterType="cn.unchen.ssm.travel.domain.User">
+        <!-- 回写主键ID-->
+        <selectKey keyProperty="uid" resultType="int" order="AFTER">
+            select last_insert_id();
+        </selectKey>
+        insert into tab_user (username,password,name,birthday,sex,telephone,email,status,code) values (#{username},#{password},#{name},#{birthday},#{sex},#{telephone},#{email},#{status},#{code})
+    </insert>
+
+
+    <select id="findByUsername" resultType="cn.unchen.ssm.travel.domain.User">
+        select * from  tab_user where username = #{username}
+    </select>
+</mapper>
